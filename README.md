@@ -87,8 +87,8 @@ test the pre-trained network: Run test.py
 
 Output the reward function curve and hit probability curve during the training process: Open and run untitled2 in MATLAB
 
-#Result
+# Result
 
-Reward curve
+The result image can be found in the "images" folder
 
-Comparison of accuracy curves of PN and PPO-PN
+Among them, the reward curve is shown in Figure 7, the accuracy curve is shown in Figure 6, when the reward is negative, the minimum relative distance of the bullet is shown in Figure 8, the training state diagrams of the traditional proportional guidance algorithm are shown in Figures 9 to 10, and the training state diagrams of the PP-PN algorithm are shown in Figures 1 to 5
