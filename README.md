@@ -1,2 +1,2 @@
 # PPO-guidance
-PPO制导
+This project uses the Proximal Policy Optimization (PPO) reinforcement learning algorithm to train an agent to dynamically optimize the proportional guidance coefficient in the missile guidance process. In the simulation environment of missile interception targets, the agent observes the relative states between the missile and the target (such as distance, approach speed, line of sight Angle, etc.) And output the key parameter in Proportional Navigation (PN) - Navigation Constant (N) as its action.
