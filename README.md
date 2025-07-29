@@ -1,2 +1,62 @@
-# PPO-guidance
-This project uses the Proximal Policy Optimization (PPO) reinforcement learning algorithm to train an agent to dynamically optimize the proportional guidance coefficient in the missile guidance process. In the simulation environment of missile interception targets, the agent observes the relative states between the missile and the target (such as distance, approach speed, line of sight Angle, etc.) And output the key parameter in Proportional Navigation (PN) - Navigation Constant (N) as its action.
+# PPO-导弹-制导
+[这个项目使用了近端策略优化（PPO）强化学习算法来训练一个代理，以在导弹引导过程中动态优化比例引导系数。在导弹拦截目标的仿真环境中，代理观察导弹与目标之间的相对状态（如距离、接近速度、视界角等），并输出比例导航（PN）中的关键参数——导航常数（N）作为其动作。]
+
+# 问题背景
+    导弹精确制导是航空航天和国防领域的核心挑战之一。比例导航（PN）因其清晰的原理、相对简单的实现和在许多场景中的良好性能，已成为最广泛使用的经典制导律之一。比例导航的核心在于其导航常数（N），它直接决定了导弹的法向加速度指令与目标的视轴角速度之间的比例关系，并对引导精度和能源效率至关重要。引导精度和能源效率。
+
+# 核心方法
+    PPO + 动态PN系数
+
+# 关键挑战
+    传统的PN指导面临两个主要挑战：
+
+固定比例系数（N）的局限性：
+a. 在实际复杂的拦截场景中（如高速、大机动目标和不同的初始条件），单一固定N值往往无法在所有情况下都达到最佳性能。
+b. N值过低可能导致响应缓慢和大量脱靶。N值过高可能导致不必要的剧烈操作、能量浪费甚至不稳定。
+c.理想情况下，N值应根据战斗情况（如剩余时间、相对速度和视图角速度的大小）动态调整，以实现精度、能耗和鲁棒性。在优秀品质之间取得最佳平衡是极其困难的。手动设计如此复杂的自适应规则是极其困难的。
+
+传感器测量噪声的干扰：
+a. 实际的导弹制导系统不可避免地会受到传感器噪声的影响。距离测量噪声（例如雷达测距误差）和角度测量噪声（例如导引头视轴角误差）是两种最常见和关键的高斯噪声源。
+这些噪音可能会污染制导系统所依赖的状态信息（如导弹-目标的相对位置、速度和视距角），导致基于这些噪音状态计算出的制导指令产生偏差。
+c. 传统的PN对噪声相对敏感。在噪声干扰下，固定N值策略的性能可能会显著下降，甚至导致脱靶。
+
+# 模拟环境
+ 
+# 模型描述
+ 
+  导弹模型
+采用粒子模型，并考虑三自由度（3DOF）的动力学。
+运动方程包括重力加速度 (g = [0, 0, -9.81] m/s²)，作用在垂直方向 (Y)。
+加速度命令由比例引导（PN）生成，其核心参数导航常数N由PPO代理动态输出。
+
+目标模型
+作为复合机动模式设计，它模拟了真实的避让行为：
+第一阶段（初始）：均匀直线飞行
+第二阶段（中间和后期部分）：执行S形蛇形机动
+横向（XZ 平面）加速度根据预设的正弦规律变化
+
+# 状态空间: 
+[dx,dy,dz,tgo,距离]
+
+# 动作空间定义：
+N（范围可以根据实际情况调整）
+
+# 奖励函数设计: 
+请参考missile.py中的get_reward()函数以获取具体实现细节和权重参数。
+
+# 噪声模型 
+距离噪声方差，角度噪声方差
+
+噪声类型：加性白高斯噪声 (AWGN)
+噪声应用对象：
+三个轴的相对距离 (dx, dy, dz)
+网格距离 (R
+噪声特性
+噪声的标准差（σ）与真实的子弹距离（R_true）成比例。
+
+# 使用方法
+要训练一个新的网络：运行 MAPPO_MPE_main
+测试预训练网络：运行test.py
+在训练过程中输出奖励函数曲线和命中概率曲线：在 MATLAB 中打开并运行 untitled2
+
+
